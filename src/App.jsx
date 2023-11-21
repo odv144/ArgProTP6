@@ -7,6 +7,7 @@ import Footer from "./Components/Footer/Footer";
 import Formulario from "./Components/Formulario/Formulario";
 import  FormFormik  from "./Components/Formulario/FormFormik";
 import FormFormikDoc from "./Components/Formulario/FormFormikDoc";
+import FormFormikDocModal from "./Components/Formulario/FormFormikModal";
 
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
         {/* <Count></Count> */}
         {/* <Formulario/> */}
       {/* <FormFormik/> */}
-       <FormFormikDoc/>
+       {/* <FormFormikDoc/> */}
+       <FormFormikDocModal></FormFormikDocModal>
        <Footer></Footer>
         
       </Flex>

@@ -55,10 +55,10 @@ const FormFormikDoc = () => {
       }}
       validationSchema={schemaVal}
       
-      onSubmit={(values) => {
+      onSubmit={(values,{resetForm}) => {
         // same shape as initial values
         console.log(values);
-        
+        resetForm();
         
       
         

@@ -43,7 +43,7 @@ const schemaVal = Yup.object().shape({
     .required("Confirme la contraseña"),
 });
 
-const FormFormikDoc = () => {
+const FormFormikDocModal = () => {
   
   const { isOpen, onOpen, onClose } = useDisclosure();
   
@@ -55,14 +55,14 @@ const FormFormikDoc = () => {
         telefono: "",
         email: "",
         password: "",
-        confirmaPassword: "",
+        confirmarPassword: "",
       }}
       validationSchema={schemaVal}
       
-      onSubmit={(values,handleReset ) => {
+      onSubmit={(values,{resetForm}) => {
         // same shape as initial values
-        console.log(values);
-        handleReset({values:{initialValues}})
+        console.log('paso');
+       
         
     
       }}
@@ -209,7 +209,7 @@ const FormFormikDoc = () => {
                 )}
               </Field>
               <Button
-                type="submit"
+              
                 onClick={onOpen}
                 p="2px 30px"
                 m="10px 10px"
@@ -231,4 +231,4 @@ const FormFormikDoc = () => {
   );
 };
 
-export default FormFormikDoc;
+export default FormFormikDocModal;
