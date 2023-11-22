@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -10,6 +10,8 @@ import {
   FormLabel,
   Image,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,6 +23,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import imgFormulario from "/img/formulario3.jpg?url";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const schemaVal = Yup.object().shape({
   nombre: Yup.string()
@@ -44,59 +47,80 @@ const schemaVal = Yup.object().shape({
 });
 
 const FormFormikDocModal = () => {
-  
+  const initial = {
+    nombre: "",
+    apellido: "",
+    telefono: "",
+    email: "",
+    password: "",
+    confirmarPassword: "",
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+  const [ver, setVer] = useState("password");
+  function verClave(event) {
+    event.preventDefault();
+    ver == "password" ? setVer("text") : setVer("password");
+  }
+  const [verConf, setVerConf] = useState("password");
+  function verClaveConf(event) {
+    event.preventDefault();
+    verConf == "password" ? setVerConf("text") : setVerConf("password");
+  }
+  const enviarDatos = (values, { resetForm }) => {
+    console.log(values);
+    onOpen();
+    onClose(resetForm((values = { initial })));
+  };
+
   return (
     <Formik
-      initialValues={{
-        nombre: "",
-        apellido: "",
-        telefono: "",
-        email: "",
-        password: "",
-        confirmarPassword: "",
-      }}
+      initialValues={initial}
       validationSchema={schemaVal}
-      
-      onSubmit={(values,{resetForm}) => {
-        // same shape as initial values
-        console.log('paso');
-       
-        
-    
-      }}
+      onSubmit={enviarDatos}
     >
-      {({ errors, touched, values}) => (
-        
-        <Flex justify="space-around">
-          <Modal isOpen={isOpen} onClose={onClose} >
-          <ModalOverlay />
-          <ModalContent borderRadius='15px'>
-            <ModalHeader 
-            fontSize='1.5rem' 
-            textAlign='center' 
-            bg='blue.300'borderRadius='15px 0px '
-            textShadow='2px 2px 2px white'
-            >Envio de Datos</ModalHeader >
-            <ModalCloseButton />
-            <ModalBody>
-              <Text><strong>Nombre:</strong> {values.nombre}</Text>
-              <Text><strong>Apellido:</strong> {values.apellido}</Text>
-              <Text><strong>Telefono:</strong> {values.telefono}</Text>
-              <Text><strong>E-Mail: </strong>{values.email}</Text>
-              
-            </ModalBody>
+      {({ errors, touched, values }) => (
+        <Flex
+          justify="space-around"
+          flexDirection={{ base: "column", sm: "column", md: "row" }}
+        >
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent borderRadius="15px">
+              <ModalHeader
+                fontSize="1.5rem"
+                textAlign="center"
+                bg="blue.300"
+                borderRadius="15px 0px "
+                textShadow="2px 2px 2px white"
+              >
+                Envio de Datos
+              </ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Text>
+                  <strong>Nombre:</strong> {values.nombre}
+                </Text>
+                <Text>
+                  <strong>Apellido:</strong> {values.apellido}
+                </Text>
+                <Text>
+                  <strong>Telefono:</strong> {values.telefono}
+                </Text>
+                <Text>
+                  <strong>E-Mail: </strong>
+                  {values.email}
+                </Text>
+              </ModalBody>
 
-            <ModalFooter>
-              <Button variant='outline' mr={3} onClick={onClose} >
-                Confirmar Envio
-                
-              </Button>
-             </ModalFooter>
-          </ModalContent>
-        </Modal>
-          <Box w="40vw" m="5px 10px" textAlign="center">
+              <ModalFooter>
+                <Button variant="outline" mr={3} onClick={onClose}>
+                  Confirmar Envio
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+          <Box w={["90vw", "90vw", "40vw"]} m="5px 10px" textAlign="center">
             <Form>
               <Field name="nombre">
                 {({ field, form }) => (
@@ -171,14 +195,37 @@ const FormFormikDocModal = () => {
                   <FormControl
                     isInvalid={form.errors.password && form.touched.password}
                   >
-                    <FormLabel htmlFor="password">password</FormLabel>
-                    <Input
-                      {...field}
-                      id="password"
-                      type='password'
-                      placeholder="password"
-                      focusBorderColor="rgba(0,0,0,0.04)"
-                    />
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <InputGroup>
+                      <Input
+                        {...field}
+                        id="password"
+                        type={ver}
+                        placeholder="password"
+                        focusBorderColor="rgba(0,0,0,0.04)"
+                      />
+                      <InputRightElement>
+                        {ver == "password" && (
+                          <ViewIcon
+                            w="60px"
+                            boxSize="20px"
+                            mr="2px"
+                            color="grey"
+                            onClick={verClave}
+                          />
+                        )}
+                        {ver == "text" && (
+                          <ViewOffIcon
+                            w="60px"
+                            boxSize="20px"
+                            mr="2px"
+                            color="grey"
+                            onClick={verClave}
+                          />
+                        )}
+                      </InputRightElement>
+                    </InputGroup>
+
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -195,25 +242,42 @@ const FormFormikDocModal = () => {
                     <FormLabel htmlFor="confirmarPassword">
                       Confirmar Password
                     </FormLabel>
-                    <Input
-                      {...field}
-                      id="confirmarPassword"
-                      type='password'
-                      placeholder="confirmarPassword"
-                      focusBorderColor="rgba(0,0,0,0.04)"
-                    />
+                    <InputGroup>
+                      <Input
+                        {...field}
+                        id="confirmarPassword"
+                        type={verConf}
+                        placeholder="confirmarPassword"
+                        focusBorderColor="rgba(0,0,0,0.04)"
+                      />
+                      <InputRightElement>
+                        {verConf == "password" && (
+                          <ViewIcon
+                            w="60px"
+                            boxSize="20px"
+                            mr="2px"
+                            color="grey"
+                            onClick={verClaveConf}
+                          />
+                        )}
+                        {verConf == "text" && (
+                          <ViewOffIcon
+                            w="60px"
+                            boxSize="20px"
+                            mr="2px"
+                            color="grey"
+                            onClick={verClaveConf}
+                          />
+                        )}
+                      </InputRightElement>
+                    </InputGroup>
                     <FormErrorMessage>
                       {form.errors.confirmarPassword}
                     </FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
-              <Button
-              
-                onClick={onOpen}
-                p="2px 30px"
-                m="10px 10px"
-              >
+              <Button type="submit" onClick={onOpen} p="2px 30px" m="10px 10px">
                 Enviar
               </Button>
               <Button type="reset" p="2px 30px" m="10px 10px">
@@ -221,12 +285,12 @@ const FormFormikDocModal = () => {
               </Button>
             </Form>
           </Box>
-          <Box w="40vw" pt="10px" opacity="0.4">
-            <Image src={imgFormulario} borderRadius="25%" />
+          <Box w={["100vw",'70vw',"40vw"]} pt="10px" opacity="0.4" display='flex'
+          >
+            <Image src={imgFormulario} borderRadius="25%" m={{base:'5 15px',sm:'5px 25px'}} justifyItems='center'/>
           </Box>
         </Flex>
       )}
-      
     </Formik>
   );
 };

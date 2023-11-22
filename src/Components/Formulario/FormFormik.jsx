@@ -27,7 +27,7 @@ const FormFormik = () => {
   };
 
   return (
-    <Flex>
+    <Flex >
       <Container bg="#aaa">
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values, handleChange,handleBlur, handleSubmit }) => (
@@ -105,13 +105,8 @@ const FormFormik = () => {
                       placeholder="Ingrese nombre"
                       value={values.nombre}
                       onChange={handleChange}
-                      // onBlur={validarNombre}
                     ></Input>
-                    {/* {nombreValidado && (
-                <Text as="span" color="red">
-                  Error en la longitud del Nombre
-                </Text>
-              )} */}
+               
                   </Stack>
                 </InputGroup>
                 <InputGroup>
@@ -130,14 +125,9 @@ const FormFormik = () => {
                       type="email"
                       value={values.email}
                       onChange={handleChange}
-                      // onBlur={validarEmail}
                       placeholder="Ingrese email"
                     ></Input>
-                    {/* {emailValidado && (
-                  <Text as="span" color="red">
-                  Correo no valido
-                </Text>
-              )} */}
+                  
                   </Stack>
                 </InputGroup>
 
@@ -145,27 +135,12 @@ const FormFormik = () => {
                   <Text as="label">Teléfono</Text>
                   <Input type="number"></Input>
                 </InputGroup>
-                {/* <InputGroup>
-            <Text as="label">Password</Text>
-            <Input type={ver}/>
-            <Button onClick={verClave}>{!mostrar?'Mostar':'Ocultar'}</Button>
-          </InputGroup>
-          <InputGroup>
-            <Text as="label">Confirmar Password</Text>
-            <Input type={ver}></Input>
-          </InputGroup> */}
                 <Button type="submit">Enviar</Button>
               </FormControl>
             </form>
           )}
         </Formik>
-        {/* {mostrar &&
-      <Box>
-          <Text>{nombre}</Text>
-          <Text>{email}</Text>
-          <Text>Otro datos</Text>
-          </Box>
-        } */}
+       
       </Container>
     </Flex>
   );

@@ -11,9 +11,11 @@ import {
   IconButton,
   Image,
   Input,
+  InputRightElement,
   
 } from "@chakra-ui/react";
 import imgFormulario from "/img/formulario3.jpg?url";
+import { ViewIcon } from "@chakra-ui/icons";
 
 const schemaVal = Yup.object().shape({
   nombre: Yup.string()
@@ -151,7 +153,12 @@ const FormFormikDoc = () => {
                       placeholder="password"
                       focusBorderColor="rgba(0,0,0,0.04)"
                     />
-                     <Button onClick={verClave}>{ver=='password'?'Mostar':'Ocultar'}</Button>
+                    <InputRightElement>
+                      <ViewIcon w='60px'
+                    boxSize='20px' mr='2px' color='grey'
+                    />
+                    </InputRightElement>
+                     {/* <Button onClick={verClave}>{ver=='password'?'Mostar':'Ocultar'}</Button> */}
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )}
